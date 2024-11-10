@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\ClientErrorException;
 use App\Models\User;
 
 class AuthService
@@ -15,17 +16,17 @@ class AuthService
 
     public function login(array $data)
     {
-        $user = User::whereEmail($data['email']);
+        $user = User::whereEmail($data['email'])->first();
 
         if (!$user) {
-            throw new ClientErrorException("Email is not associated with any " . $this->guard);
+            throw new ClientErrorException("Email is not associated with any user");
         }
 
-        if (!password_verify($request['password'], $user->password)) {
+        if (!password_verify($data['password'], $user->password)) {
             throw new ClientErrorException("Incorrect password!");
         }
 
-        $token = User::createToken('BL', ['api'])->accessToken;
+        $token = $user->createToken('BL', ['api'])->accessToken;
 
         if($token){
             return [
