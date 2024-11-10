@@ -12,7 +12,7 @@ Route::prefix('v1')->group(function (){
        Route::post('login', 'login')->name('auth.login');
     });
 
-    Route::middleware('auth.api')->group(function() {
+    Route::middleware('auth:api')->group(function() {
         Route::resource('books', BooksController::class);
     });
 });

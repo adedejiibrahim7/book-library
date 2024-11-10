@@ -26,7 +26,7 @@ class AuthService
             throw new ClientErrorException("Incorrect password!");
         }
 
-        $token = $user->createToken('BL', ['api'])->accessToken;
+        $token = $user->createToken('BL', ['user'])->accessToken;
 
         if($token){
             return [
