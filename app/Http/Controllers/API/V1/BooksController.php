@@ -57,7 +57,7 @@ class BooksController extends Controller
      *                 property="data",
      *                 type="array",
      *                 @OA\Items(
-*                            @OA\Property(property="id", type="integer", example="b75bd679-00ec-432c-816a-f2ec8fee8178"),
+     *                       @OA\Property(property="id", type="integer", example="b75bd679-00ec-432c-816a-f2ec8fee8178"),
      *                       @OA\Property(property="title", type="string", example="Half of a Yellow Sun"),
      *                       @OA\Property(property="author", type="string", example="Chinua Achebe"),
      *                       @OA\Property(property="isbn", type="string", example="ISBN"),
@@ -103,6 +103,52 @@ class BooksController extends Controller
             'data' => BookResource::collection($books)
         ]);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/books/{id}",
+     *     summary="Get details of a specific book",
+     *     description="Fetches details of a book by its ID. Requires a valid Bearer token for access.",
+     *     operationId="getBookById",
+     *     tags={"Books"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the book to fetch",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Book fetched successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Book fetched successfully"),
+     *             @OA\Property(property="data",type="array",
+*                          @OA\Items(
+     *                        @OA\Property(property="id", type="integer", example="b75bd679-00ec-432c-816a-f2ec8fee8178"),
+     *                        @OA\Property(property="title", type="string", example="Half of a Yellow Sun"),
+     *                        @OA\Property(property="author", type="string", example="Chinua Achebe"),
+     *                        @OA\Property(property="isbn", type="string", example="ISBN"),
+     *                        @OA\Property(property="status", type="string", example="available"),
+     *                  )
+     *          )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Book not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Book not found")
+     *         )
+     *     )
+     * )
+     */
 
     public function show(Book $book)
     {
